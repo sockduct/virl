@@ -1,0 +1,45 @@
+!
+conf t
+!
+vlan 11
+ name Student1toTeacher
+vlan 12
+ name Student2toTeacher
+vlan 13
+ name Student3toTeacher
+vlan 14
+ name Student4toTeacher
+vlan 15
+ name Student5toTeacher
+vlan 16
+ name Student6toTeacher
+!
+interface Vlan11
+ ip address 172.18.21.1 255.255.255.0
+ no shut
+interface Vlan12
+ ip address 172.18.22.1 255.255.255.0
+ no shut
+interface Vlan13
+ ip address 172.18.23.1 255.255.255.0
+ no shut
+interface Vlan14
+ ip address 172.18.24.1 255.255.255.0
+ no shut
+interface Vlan15
+ ip address 172.18.25.1 255.255.255.0
+ no shut
+interface Vlan16
+ ip address 172.18.26.1 255.255.255.0
+ no shut
+!
+interface lo1
+ ip address 192.0.2.254 255.255.255.255
+!
+router eigrp 101
+ network 172.18.0.0
+ network 192.0.2.0
+ network 192.168.0.0 0.0.255.255
+ no auto-summary
+end
+!

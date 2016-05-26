@@ -1,0 +1,39 @@
+# If Ubuntu server not setup then have to setup new VIRL file/instance
+#  and import this setup into lab1.virl; then setup teacher switch and save
+#
+# ifconfig eth0 10.255.1.101 netmask 255.255.0.0
+# ifconfig eth1 172.18.101.101 netmask 255.255.255.0
+# route add default gw 172.18.101.1
+#
+# For additional packages, do apt-get install from server-1 to see which
+#  packages are needed:
+#  libfile-copy-recursive-perl update-inetd xinetd tftpd tftp
+#  Then do apt-get download for packages from
+#  mininet (UD436) which is same version and architecture of Ubuntu, tar
+#  up files and install on server-1 with dpkg -i.
+#
+# From the OMS6250-2016-Spring VM/mininet (UD436)
+# root:~/tmp: scp bundle.tgz 198.18.1.6x:/tmp
+# From 198.18.1.6x:/tmp: scp bundle.tgz cisco@10.255.1.101 (server-1)
+# From server-1:/tmp:  tar xzvf bundle.tgz
+#  * dpkg -i perl, inetd, xinetd, tftpd, tftp
+#  * setup tftp directory:  mkdir /tftpboot; chmod 1777 /tftpboot
+#  * setup tftp directory:  chown nobody:nogroup /tftpboot
+#  * setup tftp directory:  cd /tftpboot; touch Teacher.cfg student[1-6]r.cfg
+#  * setup tftp service:
+# /etc/xinetd.d/tftp
+# After changes:  service xinetd restart
+#
+service tftp
+{
+        protocol        = udp
+        port            = 69
+        socket_type     = dgram
+        wait            = yes
+        user            = nobody
+        bind            = 172.18.101.101
+        server          = /usr/sbin/in.tftpd 
+        server_args     = /tftpboot
+        disable         = no
+}
+

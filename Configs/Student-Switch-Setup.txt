@@ -1,0 +1,54 @@
+!
+conf t
+!
+vlan 1#
+ name Student#toTeacher
+!
+vlan #0#
+ name InterStuSwitct#to#
+!
+!! Not needed on end switches
+!vlan #0#
+! name InterStuSwitch#to#
+!
+interface GigabitEthernet0/2
+! description to Teacher
+ switchport trunk allowed vlan 1#
+!
+interface GigabitEthernet0/3
+! description to student#s
+ switchport trunk allowed vlan #0#
+!
+!! Not needed on end switches
+interface GigabitEthernet1/0
+ description to student#s
+ switchport trunk allowed vlan #0#
+!
+interface Vlan2
+ ip address 172.18.#.254 255.255.255.0
+ no shut
+!         
+interface Vlan1#
+ ip address 172.18.2#.254 255.255.255.0
+ no shut
+!
+!! Middle Switches - to left student switches
+!! End Switches - to neighboring student switch
+!! Use this for last end switch and middle switches
+interface Vlan#0#
+ ip address 172.18.10.<(# - 2)*8 + 2> 255.255.255.248
+ no shut
+!
+!! Middle Switches - to right student switches
+!! End Switches - to neighboring student switch
+!! Use this for first end switch and middle switches
+interface Vlan#0#
+ ip address 172.18.10.<(# - 1)*8 + 1> 255.255.255.248
+ no shut
+!
+router eigrp 101
+ network 172.18.0.0
+ no auto-summary
+!
+end
+!

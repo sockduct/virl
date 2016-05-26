@@ -1,0 +1,5 @@
+configure terminal
+ip domain-name lab.local
+crypto key generate rsa modulus 1024
+username student password cisco
+end

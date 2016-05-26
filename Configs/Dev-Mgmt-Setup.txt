@@ -1,0 +1,20 @@
+! Router
+conf t
+int g0/0
+ip addr 10.255.1.x 255.255.0.0
+end
+
+
+! Switch
+conf t
+int g0/0
+ip addr 10.255.1.1x 255.255.0.0
+end
+
+
+! Teacher
+conf t
+int g0/0
+ip addr 10.255.1.21 255.255.0.0
+end
+
