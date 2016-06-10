@@ -10,7 +10,7 @@
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:42:41 UTC Fri May 20 2016
+! Last configuration change at 09:50:01 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -70,6 +70,9 @@ vlan 25
 vlan 102
  name InterStuSwitch1to2
 !
+vlan 601
+ name InterStuSwitch6to1
+!
 ! 
 !
 !
@@ -92,7 +95,7 @@ interface GigabitEthernet0/1
  no negotiation auto
 !
 interface GigabitEthernet0/2
- description to Teacher
+ description to teacher1d
  switchport trunk allowed vlan 11
  switchport trunk encapsulation dot1q
  switchport mode trunk
@@ -100,8 +103,8 @@ interface GigabitEthernet0/2
  negotiation auto
 !
 interface GigabitEthernet0/3
- description to student2s
- switchport trunk allowed vlan 25,102
+ description to student6s
+ switchport trunk allowed vlan 25,601
  switchport trunk encapsulation dot1q
  switchport mode trunk
  media-type rj45
@@ -115,6 +118,19 @@ interface GigabitEthernet0/0
  negotiation auto
  no cdp enable
 !
+interface GigabitEthernet1/0
+ description to student2s
+ switchport trunk allowed vlan 25,102
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ description to L2only
+ media-type rj45
+ negotiation auto
+!
 interface Vlan2
  ip address 172.18.1.254 255.255.255.0
 !
@@ -123,6 +139,9 @@ interface Vlan11
 !
 interface Vlan102
  ip address 172.18.10.1 255.255.255.248
+!
+interface Vlan601
+ ip address 172.18.10.42 255.255.255.248
 !
 !
 router eigrp 101
@@ -283,12 +302,14 @@ end</entry>
         <interface id="0" name="GigabitEthernet0/1"/>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet1/0"/>
+        <interface id="4" name="GigabitEthernet1/1"/>
     </node>
-    <node name="student2s" type="SIMPLE" subtype="IOSvL2" location="160,124">
+    <node name="student2s" type="SIMPLE" subtype="IOSvL2" location="159,156">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:44:08 UTC Fri May 20 2016
+! Last configuration change at 09:48:53 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -401,6 +422,11 @@ interface GigabitEthernet1/0
  switchport trunk allowed vlan 25,203
  switchport trunk encapsulation dot1q
  switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ description to L2only
  media-type rj45
  negotiation auto
 !
@@ -576,12 +602,13 @@ end</entry>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
         <interface id="3" name="GigabitEthernet1/0"/>
+        <interface id="4" name="GigabitEthernet1/1"/>
     </node>
-    <node name="student3s" type="SIMPLE" subtype="IOSvL2" location="249,126">
+    <node name="student3s" type="SIMPLE" subtype="IOSvL2" location="248,158">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:44:44 UTC Fri May 20 2016
+! Last configuration change at 09:53:36 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -697,6 +724,7 @@ interface GigabitEthernet1/0
  negotiation auto
 !
 interface GigabitEthernet1/1
+ description to L2only
  media-type rj45
  negotiation auto
 !
@@ -874,11 +902,11 @@ end</entry>
         <interface id="3" name="GigabitEthernet1/0"/>
         <interface id="4" name="GigabitEthernet1/1"/>
     </node>
-    <node name="student4s" type="SIMPLE" subtype="IOSvL2" location="340,121">
+    <node name="student4s" type="SIMPLE" subtype="IOSvL2" location="340,158">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:45:04 UTC Fri May 20 2016
+! Last configuration change at 09:44:19 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -995,16 +1023,16 @@ interface GigabitEthernet1/0
  negotiation auto
 !
 interface GigabitEthernet1/1
+ description to L2only
+ negotiation auto
+!
+interface GigabitEthernet1/2
  description to lxc-1
  switchport access vlan 25
  switchport mode access
  media-type rj45
  duplex full
  no negotiation auto
-!
-interface GigabitEthernet1/2
- media-type rj45
- negotiation auto
 !
 interface Vlan2
  ip address 172.18.4.254 255.255.255.0
@@ -1181,11 +1209,11 @@ end</entry>
         <interface id="4" name="GigabitEthernet1/1"/>
         <interface id="5" name="GigabitEthernet1/2"/>
     </node>
-    <node name="student5s" type="SIMPLE" subtype="IOSvL2" location="433,124">
+    <node name="student5s" type="SIMPLE" subtype="IOSvL2" location="434,160">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:46:16 UTC Fri May 20 2016
+! Last configuration change at 09:46:17 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -1298,20 +1326,19 @@ interface GigabitEthernet1/0
  switchport trunk allowed vlan 25,506
  switchport trunk encapsulation dot1q
  switchport mode trunk
- media-type rj45
  negotiation auto
 !
 interface GigabitEthernet1/1
+ description to L2only
+ negotiation auto
+!
+interface GigabitEthernet1/2
  description to lxc-2
  switchport access vlan 25
  switchport mode access
  media-type rj45
  duplex full
  no negotiation auto
-!
-interface GigabitEthernet1/2
- media-type rj45
- negotiation auto
 !
 interface Vlan2
  ip address 172.18.5.254 255.255.255.0
@@ -1495,7 +1522,7 @@ end</entry>
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
-! Last configuration change at 12:46:23 UTC Fri May 20 2016
+! Last configuration change at 09:53:45 UTC Fri Jun 10 2016
 !
 version 15.2
 service timestamps debug datetime msec
@@ -1553,7 +1580,10 @@ vlan 25
  name Servers
 !
 vlan 506
- name InterStuSwitchrto5
+ name InterStuSwitch5to6
+!
+vlan 601
+ name InterStuSwitch6to1
 !
 ! 
 !
@@ -1601,6 +1631,15 @@ interface GigabitEthernet0/0
  no cdp enable
 !
 interface GigabitEthernet1/0
+ description to student1s
+ switchport trunk allowed vlan 25,601
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ media-type rj45
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ description to L2only
  media-type rj45
  negotiation auto
 !
@@ -1612,6 +1651,9 @@ interface Vlan16
 !
 interface Vlan506
  ip address 172.18.10.34 255.255.255.248
+!
+interface Vlan601
+ ip address 172.18.10.41 255.255.255.248
 !
 !
 router eigrp 101
@@ -1773,8 +1815,9 @@ end</entry>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
         <interface id="3" name="GigabitEthernet1/0"/>
+        <interface id="4" name="GigabitEthernet1/1"/>
     </node>
-    <node name="student1r" type="SIMPLE" subtype="IOSv" location="57,203" ipv4="192.168.0.1">
+    <node name="student1r" type="SIMPLE" subtype="IOSv" location="53,237" ipv4="192.168.0.1">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -2022,8 +2065,9 @@ event manager applet EEM_Mgmt_Addr
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.1" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="student2r" type="SIMPLE" subtype="IOSv" location="157,206" ipv4="192.168.0.2">
+    <node name="student2r" type="SIMPLE" subtype="IOSv" location="157,237" ipv4="192.168.0.2">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -2271,8 +2315,9 @@ event manager applet EEM_Block_Flash_Erase3
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.2" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="student3r" type="SIMPLE" subtype="IOSv" location="251,200" ipv4="192.168.0.3">
+    <node name="student3r" type="SIMPLE" subtype="IOSv" location="248,235" ipv4="192.168.0.3">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -2520,8 +2565,9 @@ event manager applet EEM_Block_Flash_Erase3
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.3" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="student4r" type="SIMPLE" subtype="IOSv" location="345,202" ipv4="192.168.0.4">
+    <node name="student4r" type="SIMPLE" subtype="IOSv" location="344,232" ipv4="192.168.0.4">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -2769,8 +2815,9 @@ event manager applet EEM_Block_Flash_Erase3
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.4" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="student5r" type="SIMPLE" subtype="IOSv" location="436,202" ipv4="192.168.0.5">
+    <node name="student5r" type="SIMPLE" subtype="IOSv" location="435,233" ipv4="192.168.0.5">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -3018,8 +3065,9 @@ event manager applet EEM_Block_Flash_Erase3
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.5" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="student6r" type="SIMPLE" subtype="IOSv" location="544,200" ipv4="192.168.0.6">
+    <node name="student6r" type="SIMPLE" subtype="IOSv" location="537,233" ipv4="192.168.0.6">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -3267,8 +3315,9 @@ event manager applet EEM_Block_Flash_Erase3
 end</entry>
         </extensions>
         <interface id="0" name="GigabitEthernet0/1" ipv4="10.0.0.6" netPrefixLenV4="16"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
     </node>
-    <node name="Teacher" type="SIMPLE" subtype="IOSvL2" location="302,38">
+    <node name="teacher1d" type="SIMPLE" subtype="IOSvL2" location="302,38">
         <extensions>
             <entry key="AutoNetkit.mgmt_ip" type="string"></entry>
             <entry key="config" type="String">!
@@ -3784,6 +3833,8 @@ end</entry>
         <interface id="1" name="GigabitEthernet0/2"/>
         <interface id="2" name="GigabitEthernet0/3"/>
         <interface id="3" name="GigabitEthernet1/0"/>
+        <interface id="4" name="GigabitEthernet1/1"/>
+        <interface id="5" name="GigabitEthernet1/2"/>
     </node>
     <node name="lxc-1" type="SIMPLE" subtype="lxc" location="93,34">
         <extensions>
@@ -3831,7 +3882,7 @@ write_files:
     exit 0
 </entry>
         </extensions>
-        <interface id="0" name="eth1" ipv4="172.18.8.11" netPrefixLenV4="24"/>
+        <interface id="0" name="eth1"/>
     </node>
     <node name="lxc-2" type="SIMPLE" subtype="lxc" location="546,33">
         <extensions>
@@ -3879,7 +3930,7 @@ write_files:
     exit 0
 </entry>
         </extensions>
-        <interface id="0" name="eth1" ipv4="172.18.8.12" netPrefixLenV4="24"/>
+        <interface id="0" name="eth1"/>
     </node>
     <node name="server-1" type="SIMPLE" subtype="server" location="195,23">
         <extensions>
@@ -3940,6 +3991,14 @@ write_files:
         </extensions>
         <interface id="0" name="eth1" ipv4="10.0.0.5" netPrefixLenV4="30"/>
     </node>
+    <node name="gateway1g" type="SIMPLE" subtype="CSR1000v" location="289,338">
+        <interface id="0" name="GigabitEthernet2"/>
+        <interface id="1" name="GigabitEthernet3"/>
+        <interface id="2" name="GigabitEthernet4"/>
+        <interface id="3" name="GigabitEthernet5"/>
+        <interface id="4" name="GigabitEthernet6"/>
+        <interface id="5" name="GigabitEthernet7"/>
+    </node>
     <connection dst="/virl:topology/virl:node[7]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
     <connection dst="/virl:topology/virl:node[8]/virl:interface[1]" src="/virl:topology/virl:node[2]/virl:interface[1]"/>
     <connection dst="/virl:topology/virl:node[9]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[1]"/>
@@ -3952,16 +4011,25 @@ write_files:
     <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[4]"/>
     <connection dst="/virl:topology/virl:node[5]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[5]"/>
     <connection dst="/virl:topology/virl:node[6]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[6]"/>
-    <connection dst="/virl:topology/virl:node[2]/virl:interface[3]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
     <connection dst="/virl:topology/virl:node[3]/virl:interface[3]" src="/virl:topology/virl:node[2]/virl:interface[4]"/>
     <connection dst="/virl:topology/virl:node[4]/virl:interface[3]" src="/virl:topology/virl:node[3]/virl:interface[4]"/>
     <connection dst="/virl:topology/virl:node[5]/virl:interface[3]" src="/virl:topology/virl:node[4]/virl:interface[4]"/>
     <connection dst="/virl:topology/virl:node[6]/virl:interface[3]" src="/virl:topology/virl:node[5]/virl:interface[4]"/>
     <connection dst="/virl:topology/virl:node[3]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[1]"/>
-    <connection dst="/virl:topology/virl:node[4]/virl:interface[6]" src="/virl:topology/virl:node[14]/virl:interface[2]"/>
-    <connection dst="/virl:topology/virl:node[5]/virl:interface[6]" src="/virl:topology/virl:node[14]/virl:interface[3]"/>
-    <connection dst="/virl:topology/virl:node[6]/virl:interface[4]" src="/virl:topology/virl:node[14]/virl:interface[4]"/>
-    <connection dst="/virl:topology/virl:node[4]/virl:interface[5]" src="/virl:topology/virl:node[15]/virl:interface[1]"/>
-    <connection dst="/virl:topology/virl:node[5]/virl:interface[5]" src="/virl:topology/virl:node[16]/virl:interface[1]"/>
     <connection dst="/virl:topology/virl:node[13]/virl:interface[7]" src="/virl:topology/virl:node[17]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[6]" src="/virl:topology/virl:node[16]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[6]" src="/virl:topology/virl:node[15]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[3]" src="/virl:topology/virl:node[1]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[4]" src="/virl:topology/virl:node[1]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[5]" src="/virl:topology/virl:node[14]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[2]" src="/virl:topology/virl:node[8]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[3]" src="/virl:topology/virl:node[9]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[4]" src="/virl:topology/virl:node[10]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[5]" src="/virl:topology/virl:node[11]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[6]" src="/virl:topology/virl:node[12]/virl:interface[2]"/>
 </topology>
